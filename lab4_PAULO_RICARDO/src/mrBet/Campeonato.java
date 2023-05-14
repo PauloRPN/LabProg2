@@ -1,6 +1,7 @@
 package mrBet;
 
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -14,7 +15,6 @@ public class Campeonato {
 	private String nome;
 	private int qtdeTimes;
 	private HashMap<String, Time> times;
-	private int qtdeTimesInclusos;
 	
 	/**
 	 * Constrói um campeonato.
@@ -25,7 +25,6 @@ public class Campeonato {
 	public Campeonato(String nome, int qtdeTimes) {
 		this.nome = nome;
 		this.qtdeTimes = qtdeTimes;
-		qtdeTimesInclusos++;
 		times = new HashMap<>();
 	}
 	
@@ -48,12 +47,22 @@ public class Campeonato {
 	}
 	
 	/**
+	 * Recupera os times inclusos no campeonato.
+	 * 
+	 * @return Retorna um mapa dos times inclusos no campeonato.
+	 */
+	public HashMap<String, Time> getTimesInclusos() {
+		return (HashMap<String, Time>) times.clone();
+	}
+
+	
+	/**
 	 * Recupera a quantidade de times inclusos até o momento no campeonato.
 	 * 
 	 * @return Retorna a quantidade de times inclusos até o momento no campeonato.
 	 */
 	public int getQtdeTimesInclusos() {
-		return qtdeTimesInclusos;
+		return times.size();
 	}
 	
 	/**
@@ -63,7 +72,11 @@ public class Campeonato {
 	 * @return Retorna o time.
 	 */
 	public Time getTimeIncluso(String idTime) {
-		return times.get(idTime);
+		if (!times.containsKey(idTime)) {
+			throw new NoSuchElementException("O TIME NÃO ESTÁ NO CAMPEONATO!");
+		}
+		
+		return getTimesInclusos().get(idTime);
 	}
 	
 	/**
@@ -81,7 +94,7 @@ public class Campeonato {
 	 * @return Retorna true caso o campeonato esteja cheio. Caso contrário, false.
 	 */
 	public boolean isFull() {
-		if (qtdeTimes == qtdeTimesInclusos) {
+		if (qtdeTimes == getQtdeTimesInclusos()) {
 			return true;
 		}
 		

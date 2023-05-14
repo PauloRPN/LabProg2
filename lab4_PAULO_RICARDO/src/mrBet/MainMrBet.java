@@ -1,5 +1,6 @@
 package mrBet;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -80,7 +81,7 @@ public class MainMrBet {
 			if (opcoes[1].equals("I")) {
 				incluirTimeCampeonato(MrBet, scanner);
 			} else if (opcoes[1].equals("V")) {
-				verificarInclusaoTime(MrBet, scanner);
+				verificarInclusaoTimeEmCampeonato(MrBet, scanner);
 			} else {
 				System.out.println("Opção inválida!\n");
 			}
@@ -141,8 +142,8 @@ public class MainMrBet {
 		
 		try {
 			System.out.println("\n" + MrBet.recuperarTime(idTime) + "\n");
-		} catch (IllegalArgumentException iae) {
-			System.out.println("\n" + iae.getMessage() + "\n");
+		} catch (NoSuchElementException nsee) {
+			System.out.println("\n" + nsee.getMessage() + "\n");
 		}
 	}
 	
@@ -179,8 +180,8 @@ public class MainMrBet {
 		
 		try {
 			System.out.println("\n" + MrBet.incluirTimeCampeonato(idTime, nomeCampeonato) + "\n");
-		} catch (IllegalArgumentException iae) {
-			System.out.println("\n" + iae.getMessage() + "\n");
+		} catch (Exception e) {
+			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
 	
@@ -190,16 +191,16 @@ public class MainMrBet {
 	 * @param MrBet O sistema MrBet sendo manipulado.
 	 * @param scanner Scanner para capturar o id do time e o nome do campeonato.
 	 */
-	private static void verificarInclusaoTime(MrBetSistema MrBet, Scanner scanner) {
+	private static void verificarInclusaoTimeEmCampeonato(MrBetSistema MrBet, Scanner scanner) {
 		System.out.print("\nCódigo: ");
 		String idTime = scanner.next();
 		System.out.print("Campeonato: ");
 		String nomeCampeonato = scanner.next();
 		
 		try {
-			System.out.println("\n" + MrBet.verificarInclusaoTime(idTime, nomeCampeonato) + "\n");
-		} catch (IllegalArgumentException iae) {
-			System.out.println("\n" + iae.getMessage() + "\n");
+			System.out.println("\n" + MrBet.verificarInclusaoTimeEmCampeonato(idTime, nomeCampeonato) + "\n");
+		} catch (NoSuchElementException nsee) {
+			System.out.println("\n" + nsee.getMessage() + "\n");
 		}
 	}
 	
@@ -222,8 +223,8 @@ public class MainMrBet {
 			}
 			
 			System.out.println();
-		} catch (IllegalArgumentException iae) {
-			System.out.println("\n" + iae.getMessage() + "\n");
+		} catch (Exception e) {
+			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
 	
@@ -245,8 +246,8 @@ public class MainMrBet {
 		
 		try {
 			System.out.println("\n" + MrBet.apostar(idTime, nomeCampeonato, colocao, valorAposta) + "\n");
-		} catch (IllegalArgumentException iae) {
-			System.out.println("\n" + iae.getMessage() + "\n");
+		} catch (Exception e) {
+			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
 	
@@ -271,21 +272,21 @@ public class MainMrBet {
 	 */
 	private static void exibirHistorico(MrBetSistema MrBet) {
 		System.out.println("\nParticipação mais frequente em campeonatos:");
-		for (Time time : MrBet.recuperarTimesMaiorParticipacao()) {
+		for (Time time : MrBet.getTimesMaiorParticipacao()) {
 			if (time != null) {
 				System.out.println(time.toString());
 			}
 		}
 		
 		System.out.println("\nAinda não participou de campeonato:");
-		for (Time time : MrBet.recuperarTimesSemCampeonatos()) {
+		for (Time time : MrBet.getTimesSemCampeonatos()) {
 			if (time != null) {
 				System.out.println(time.toString());
 			}
 		}
 		
 		System.out.println("\nPopularidade em apostas:");
-		for (Time time : MrBet.recuperarTimesPopulares()) {
+		for (Time time : MrBet.getTimesPopulares()) {
 			if (time != null) {
 				System.out.println(time.getNome() + " / " + time.getPopularidade());
 			}

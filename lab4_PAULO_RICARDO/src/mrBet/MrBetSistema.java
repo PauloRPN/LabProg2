@@ -2,6 +2,7 @@ package mrBet;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.ArrayList;
 
 /**
@@ -35,7 +36,7 @@ public class MrBetSistema {
 	 * @return Retorna uma mensagem de confirmação de inclusão do time caso seja incluído.
 	 * @throws IllegalArgumentException Lança exceção para a tentativa de inclusão de times já inclusos.
 	 */
-	public String incluirTime(String idTime, String nome, String mascote) throws IllegalArgumentException {
+	public String incluirTime(String idTime, String nome, String mascote) {
 		if (times.containsKey(idTime)) {
 			throw new IllegalArgumentException("O TIME JÁ EXISTE!"); 
 		}
@@ -50,11 +51,11 @@ public class MrBetSistema {
 	 * 
 	 * @param idTime Identificação do time.
 	 * @return Retorna as informações do time.
-	 * @throws IllegalArgumentException Lança exceção para a tentativa de recuperação de um time não incluso no MrBet.
+	 * @throws NoSuchElementException Lança exceção para a tentativa de recuperação de um time não incluso no MrBet.
 	 */
-	public String recuperarTime(String idTime) throws IllegalArgumentException {
+	public String recuperarTime(String idTime) {
 		if (!times.containsKey(idTime)) {
-			throw new IllegalArgumentException("O TIME NÃO EXISTE!"); 
+			throw new NoSuchElementException("O TIME NÃO EXISTE!"); 
 		}
 		
 		return times.get(idTime).toString();
@@ -68,7 +69,7 @@ public class MrBetSistema {
 	 * @return Retorna uma mensagem de confirmação de adição do time caso seja adicionado.
 	 * @throws IllegalArgumentException Lança exceção para a tentitiva de adição de campeonato já existente no MrBet.
 	 */
-	public String adicionarCampeonato(String nomeCampeonato, int qtdeTimes) throws IllegalArgumentException {
+	public String adicionarCampeonato(String nomeCampeonato, int qtdeTimes) {
 		if (campeonatos.containsKey(nomeCampeonato)) {
 			throw new IllegalArgumentException("O CAMPEONATO JÁ EXISTE!");
 		}
@@ -83,13 +84,14 @@ public class MrBetSistema {
 	 * @param idTime Identificação do time.
 	 * @param nomeCampeonato Nome que identifica o campeonato.
 	 * @return Retorna uma mensagem de confirmação de inclusão do time ao campeonato caso seja incluído.
-	 * @throws IllegalArgumentException Lança exceção para times ou campeonatos não registrados no MrBet, ou para campeonatos sem vagas.
+	 * @throws NoSuchElementException Lança exceção para times ou campeonatos não registrados no MrBet.
+	 * @throws IllegalArgumentException Lança exceção para campeonatos sem vagas.
 	 */
-	public String incluirTimeCampeonato(String idTime, String nomeCampeonato) throws IllegalArgumentException {
+	public String incluirTimeCampeonato(String idTime, String nomeCampeonato) {
 		if (!times.containsKey(idTime)) {
-			throw new IllegalArgumentException("O TIME NÃO EXISTE!");
+			throw new NoSuchElementException("O TIME NÃO EXISTE!");
 		} else if (!campeonatos.containsKey(nomeCampeonato)) {
-			throw new IllegalArgumentException("O CAMPEONATO NÃO EXISTE!");
+			throw new NoSuchElementException("O CAMPEONATO NÃO EXISTE!");
 		} else if (campeonatos.get(nomeCampeonato).isFull()) {
 			throw new IllegalArgumentException("TODOS OS TIMES DESSE CAMPEONATO JÁ FORAM INCLUÍDOS!");
 		}
@@ -106,13 +108,13 @@ public class MrBetSistema {
 	 * @param idTime Identificação do time.
 	 * @param nomeCampeonato Nome que identifica o campeonato.
 	 * @return Retorna uma mensagem de confirmação para time incluso no camponato ou de negação caso não esteja.
-	 * @throws IllegalArgumentException Lança exceção para times ou campeonatos não registrados no MrBet.
+	 * @throws NoSuchElementException Lança exceção para times ou campeonatos não registrados no MrBet.
 	 */
-	public String verificarInclusaoTime(String idTime, String nomeCampeonato) throws IllegalArgumentException {
+	public String verificarInclusaoTimeEmCampeonato(String idTime, String nomeCampeonato) {
 		if (!times.containsKey(idTime)) {
-			throw new IllegalArgumentException("O TIME NÃO EXISTE!");
+			throw new NoSuchElementException("O TIME NÃO EXISTE!");
 		} else if (!campeonatos.containsKey(nomeCampeonato)) {
-			throw new IllegalArgumentException("O CAMPEONATO NÃO EXISTE!");
+			throw new NoSuchElementException("O CAMPEONATO NÃO EXISTE!");
 		}
 		
 		if (campeonatos.get(nomeCampeonato).contemTime(idTime)) {
@@ -127,11 +129,12 @@ public class MrBetSistema {
 	 * 
 	 * @param idTime Identificação do time.
 	 * @return Retorna um mapa dos campeonatos que o time faz parte.
-	 * @throws IllegalArgumentException Lança exceção para times inexistentes no sistema ou para times sem campeonatos.
+	 * @throws NoSuchElementException Lança exceção para times não registrados no MrBet.
+	 * @throws IllegalArgumentException Lança exceção para times sem campeonatos.
 	 */
-	public HashSet<Campeonato> getCompeonatosTime(String idTime) throws IllegalArgumentException {
+	public HashSet<Campeonato> getCompeonatosTime(String idTime) {
 		if (!times.containsKey(idTime)) {
-			throw new IllegalArgumentException("O TIME NÃO EXISTE!");
+			throw new NoSuchElementException("O TIME NÃO EXISTE!");
 		} else if (times.get(idTime).getQtdeCampeonatos() == 0) {
 			throw new IllegalArgumentException("O TIME NÃO ESTÁ EM NENHUM CAMPEONATO!");
 		}
@@ -165,14 +168,15 @@ public class MrBetSistema {
 	 * @param colocacao Colocação na qual deseja-se apostar que o time ficará no campeonato. 
 	 * @param valorAposta Valor da aposta.
 	 * @return Returna uma mensagem de confirmação caso a aposta seja realizada com sucesso.
-	 * @throws IllegalArgumentException Lança exceção para times ou campeonatos não registrados no MrBet, para times não inclusos
-	 * no campeonato desejado ou para a tentativa de aposta em colocação maior que a quantidade de colocações possíveis do campeonato.
+	 * @throws NoSuchElementException Lança exceção para times ou campeonatos não registrados no MrBet.
+	 * @throws IllegalArgumentException Lança exceção para times não inclusos no campeonato desejado ou 
+	 * para a tentativa de aposta em colocação maior que a quantidade de colocações possíveis do campeonato.
 	 */
-	public String apostar(String idTime, String nomeCampeonato, int colocacao, double valorAposta) throws IllegalArgumentException {
+	public String apostar(String idTime, String nomeCampeonato, int colocacao, double valorAposta) {
 		if (!times.containsKey(idTime)) {
-			throw new IllegalArgumentException("O TIME NÃO EXISTE!");
+			throw new NoSuchElementException("O TIME NÃO EXISTE!");
 		} else if (!campeonatos.containsKey(nomeCampeonato)) {
-			throw new IllegalArgumentException("O CAMPEONATO NÃO EXISTE!");
+			throw new NoSuchElementException("O CAMPEONATO NÃO EXISTE!");
 		} else if (!campeonatos.get(nomeCampeonato).contemTime(idTime)) {
 			throw new IllegalArgumentException("O TIME NÃO ESTÁ NO CAMPEONATO!");
 		} else if (colocacao > campeonatos.size()) {
@@ -202,7 +206,7 @@ public class MrBetSistema {
 	 * 
 	 * @return Retorna um ArrayList dos times com maior participação em campeonatos.
 	 */
-	public ArrayList<Time> recuperarTimesMaiorParticipacao() {
+	public ArrayList<Time> getTimesMaiorParticipacao() {
 		return historico.recuperarTimesMaiorParticipacao(times);
 	}
 	
@@ -211,7 +215,7 @@ public class MrBetSistema {
 	 * 
 	 * @return Retorna um ArrayList dos times sem participação em campeonatos.
 	 */
-	public ArrayList<Time> recuperarTimesSemCampeonatos() {
+	public ArrayList<Time> getTimesSemCampeonatos() {
 		return historico.recuperarTimesSemCampeonatos(times);
 	}
 	
@@ -220,7 +224,7 @@ public class MrBetSistema {
 	 * 
 	 * @return Retorna um ArrayList dos times populares em apostas.
 	 */
-	public ArrayList<Time> recuperarTimesPopulares() {
+	public ArrayList<Time> getTimesPopulares() {
 		return historico.recuperarTimesPopulares(times);
 	}
 }

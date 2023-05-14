@@ -11,9 +11,9 @@ import java.util.Objects;
  *
  */
 public class Time {
-	private final String id;
-	private final String nome;
-	private final String mascote;
+	private String id;
+	private String nome;
+	private String mascote;
 	private HashSet<Campeonato> campeonatos;
 	private int qtdeCampeonatos;
 	private int popularidade;
@@ -89,7 +89,7 @@ public class Time {
 	
 	/**
 	 * Representação textual do time. A representação textual de time segue o seguinte padrão:
-	 * "[[código identificador]] [nome] [mascote]".
+	 * "[[código identificador]] [nome] / [mascote]".
 	 * 
 	 * @return Retorna a representação textual do time.
 	 */
