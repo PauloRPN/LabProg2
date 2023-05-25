@@ -14,12 +14,11 @@ public class Lista extends Elemento{
 	public String toStringCompleto() {
 		String toString = new String();
 		
-		for (String valor : lista) {
-			toString += charLista + " " + valor;
-			if (!valor.equals(lista[lista.length-1])) {
-				toString += "\n";
-			}
+		for (int i = 0; i < lista.length-1; i++) {
+			toString += charLista + " " + lista[i] + "\n";		
 		}
+		
+		toString += lista[-1];
 		
 		return toString;
 	}
@@ -28,12 +27,11 @@ public class Lista extends Elemento{
 	public String toStringResumido() {
 		String toString = new String();
 		
-		for (String valor : lista) {
-			toString += valor;
-			if (!valor.equals(lista[lista.length-1])) {
-				toString += ", ";
-			}
+		for (int i = 0; i < lista.length-1; i++) {
+			toString += lista[i] + ", ";
 		}
+		
+		toString += lista[-1];
 		
 		return toString;
 	}

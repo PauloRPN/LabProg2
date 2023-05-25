@@ -1,5 +1,8 @@
 package documin;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class Termos extends Elemento{
 	private String[] termos;
 	private String separador;
@@ -26,11 +29,16 @@ public class Termos extends Elemento{
 	
 	@Override
 	public String toStringCompleto() {
+		String[] ArrayToString = new String[termos.length];
+		System.arraycopy(termos, 0, ArrayToString, 0, termos.length);
+		
 		String toString = "Total termos: " + termos.length
 				+ "\n- ";
 		
 		if (ordem == Ordem.ALFABÉTICA) {
-			
+			Arrays.sort(ArrayToString);
+		} else if (ordem == Ordem.TAMANHO) {
+			Arrays.sort(ArrayToString, new SortByLength());
 		}
 			
 		return toStringResumido();
