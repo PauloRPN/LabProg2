@@ -20,19 +20,67 @@ public class Facade {
 	}
 	
 	public int contarElementos(String tituloDoc) {
-		this.documentoController.contarElementos(tituloDoc);
+		return this.documentoController.contarElementos(tituloDoc);
 	}
 	
 	public String[] exibirDocumento(String tituloDoc) {
-		this.documentoController.exibirDocumento(tituloDoc);
+		return this.documentoController.exibirDocumento(tituloDoc);
 	}
 	
-	public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {}
+	public int criarTexto(String tituloDoc, int prioridade, String valor) {
+		return this.documentoController.criarTexto(tituloDoc, prioridade, valor);
+	}
 	
-	public int criarVisaoCompleta(String tituloDoc)
-	public int criarVisaoResumida(String tituloDoc)
-	public int criarVisaoPrioritaria(String tituloDoc, int prioridade)
-	public int criarVisaoTitulo(String tituloDoc)
-	public String[] exibirVisao(int visaoId)
+	public int criarTitulo(String tituloDoc, int prioridade, String valor, int nivel, boolean linkavel) {
+		return this.documentoController.criarTitulo(tituloDoc, prioridade, valor, nivel, linkavel);
+	}
+	
+	public int criarLista(String tituloDoc, int prioridade, String valor, String separador, String charLista) {
+		return this.documentoController.criarLista(tituloDoc, prioridade, valor, separador, charLista);
+	}
+	
+	public int criarTermos(String tituloDoc, int prioridade, String valor, String separador, String ordem) {
+		return this.documentoController.criarTermos(tituloDoc, prioridade, valor, separador, ordem);
+	}
+	
+	public String pegarRepresentacaoCompleta(String tituloDoc, int elementoPosicao) {
+		return this.documentoController.pegarRepresentacaoCompleta(tituloDoc, elementoPosicao);
+	}
+	
+	public String pegarRepresentacaoResumida(String tituloDoc, int elementoPosicao) {
+		return this.documentoController.pegarRepresentacaoResumida(tituloDoc, elementoPosicao);
+	}
+	
+	public void moverParaCima(String tituloDoc, int elementoPosicao) {
+		this.documentoController.moverParaCima(tituloDoc, elementoPosicao);
+	}
+	
+	public void moverParaBaixo(String tituloDoc, int elementoPosicao) {
+		this.documentoController.moverParaBaixo(tituloDoc, elementoPosicao);
+	}
+	
+	public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {
+		return this.documentoController.criarAtalho(tituloDoc, tituloDocReferenciado);
+	}
+	
+	public int criarVisaoCompleta(String tituloDoc) {
+		return 1;
+	}
+	
+	public int criarVisaoResumida(String tituloDoc) {
+		return 1;
+	}
+	
+	public int criarVisaoPrioritaria(String tituloDoc, int prioridade) {
+		return 1;
+	}
+	
+	public int criarVisaoTitulo(String tituloDoc) {
+		return 1;
+	}
+	
+	public int exibirVisao(int visaoId) {
+		return 1;
+	}
 
 }

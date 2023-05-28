@@ -19,6 +19,7 @@ public class DocumentoController {
 			return false;
 		}
 		
+		documentos.put(tituloDoc, new Documento(tituloDoc));
 		return true;
 	}
 	
@@ -31,33 +32,102 @@ public class DocumentoController {
 			return false;
 		}
 		
-		Documento doc = new Documento(tituloDoc, tamanhoMaximo);
+		documentos.put(tituloDoc, new Documento(tituloDoc, tamanhoMaximo));
 		return true;
 	}
 	
 	public void removerDocumento(String tituloDoc) {
-		if (!documentos.containsKey(tituloDoc)) {
-			throw new NoSuchElementException("O DOCUMENTO NÃO EXISTE!");
-		}
-		
+		verificaNoSuchElementException(tituloDoc);
 		documentos.remove(tituloDoc);
 	}
 	
 	public int contarElementos(String tituloDoc) {
-		if (!documentos.containsKey(tituloDoc)) {
-			throw new NoSuchElementException("O DOCUMENTO NÃO EXISTE!");
-		}
-		
+		verificaNoSuchElementException(tituloDoc);
 		return documentos.get(tituloDoc).getQtdeElementos();
 	}
 	
 	public String[] exibirDocumento(String tituloDoc) {
+		verificaNoSuchElementException(tituloDoc);
+		return documentos.get(tituloDoc).DocumentoToString();
+	}
+	
+	public int criarTexto(String tituloDoc, int prioridade, String valor) {
+		verificaNoSuchElementException(tituloDoc);
+		verificaArrayOutofBoundsException(tituloDoc);
+		
+		return documentos.get(tituloDoc).criarTexto(prioridade, valor);
+	}
+
+	public int criarTitulo(String tituloDoc, int prioridade, String valor, int nivel, boolean linkavel) {
+		verificaNoSuchElementException(tituloDoc);
+		verificaArrayOutofBoundsException(tituloDoc);
+		
+		return documentos.get(tituloDoc).criarTitulo(prioridade, valor, nivel, linkavel);
+	}
+
+	public int criarLista(String tituloDoc, int prioridade, String valor, String separador, String charLista) {
+		verificaNoSuchElementException(tituloDoc);
+		verificaArrayOutofBoundsException(tituloDoc);
+		
+		return documentos.get(tituloDoc).criarLista(prioridade, valor, separador, charLista);
+	}
+
+	public int criarTermos(String tituloDoc, int prioridade, String valor, String separador, String ordem) {
+		verificaNoSuchElementException(tituloDoc);
+		verificaArrayOutofBoundsException(tituloDoc);
+		
+		return documentos.get(tituloDoc).criarTermos(prioridade, valor, separador, ordem);
+	}
+	
+	public String pegarRepresentacaoCompleta(String tituloDoc, int elementoPosicao) {
+		verificaNoSuchElementException(tituloDoc);
+		verificaArrayIndexOutOfBoundsException(tituloDoc, elementoPosicao);
+		
+		return documentos.get(tituloDoc).pegarRepresetacaoCompleta(elementoPosicao);
+	}
+	
+	public String pegarRepresentacaoResumida(String tituloDoc, int elementoPosicao) {
+		verificaNoSuchElementException(tituloDoc);
+		verificaArrayOutofBoundsException(tituloDoc);
+		
+		return documentos.get(tituloDoc).pegarRepresetacaoResumida(elementoPosicao);
+	}
+	
+	public void moverParaCima(String tituloDoc, int elementoPosicao) {
+		verificaNoSuchElementException(tituloDoc);
+		verificaArrayIndexOutOfBoundsException(tituloDoc, elementoPosicao);
+		
+		documentos.get(tituloDoc).moverParaCima(tituloDoc, elementoPosicao);
+	}
+
+	public void moverParaBaixo(String tituloDoc, int elementoPosicao) {
+		verificaNoSuchElementException(tituloDoc);
+		verificaArrayIndexOutOfBoundsException(tituloDoc, elementoPosicao);
+		
+		documentos.get(tituloDoc).moverParaBaixo(tituloDoc, elementoPosicao);
+	} 
+	
+	
+	// Metódos que verificam exceções
+	
+	private void verificaNoSuchElementException(String tituloDoc) {
 		if (!documentos.containsKey(tituloDoc)) {
 			throw new NoSuchElementException("O DOCUMENTO NÃO EXISTE!");
 		}
-		
-		return documentos.get(tituloDoc).toString();
 	}
 	
+	private void verificaArrayOutofBoundsException(String tituloDoc) {
+		if (documentos.get(tituloDoc).getTamanhoMaximo() != 0
+				&& documentos.get(tituloDoc).getQtdeElementos() == documentos.get(tituloDoc).getTamanhoMaximo()) {
+			throw new ArrayIndexOutOfBoundsException("O DOCUMENTO ATINGIU SEU LIMITE!");
+		}
+	}
+	
+	private void verificaArrayIndexOutOfBoundsException(String tituloDoc, int elementoPosicao) {
+		if (elementoPosicao > documentos.get(tituloDoc).getQtdeElementos()
+				|| elementoPosicao < 0) {
+			throw new ArrayIndexOutOfBoundsException("POSIÇÃO INVÁLIDA OU INEXISTENTE NO DOCUMENTO!");
+		}
+	}
 	
 }

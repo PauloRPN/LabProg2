@@ -13,22 +13,14 @@ public class Titulo extends Elemento{
 	@Override
 	public String toStringCompleto() {
 		if (linkavel) {
-			return nivel + ". " + getValor() + " -- " + getLink();
+			return toStringResumido() + " -- " + getLink();
 		}
 		
 		return toStringResumido();
 	}
 
 	private String getLink() {
-		String link = getValor() + "-";
-		
-		for (String palavra : getValor().split("")) {
-			for (char letra : palavra.toCharArray()) {
-				link += letra; 
-			}
-		}
-		
-		return link.toUpperCase();
+		return nivel + "-" + getValor().replace(" ", "").toUpperCase();
 	}
 	
 	@Override

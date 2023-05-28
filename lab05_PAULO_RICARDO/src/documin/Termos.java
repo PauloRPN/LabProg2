@@ -2,6 +2,7 @@ package documin;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.lang.StringBuilder;
 
 public class Termos extends Elemento{
 	private String[] termos;
@@ -22,31 +23,26 @@ public class Termos extends Elemento{
 			this.ordem = Ordem.NENHUMA;
 		} else if (ordem.equals("alfabética")) {
 			this.ordem = Ordem.ALFABÉTICA;
+			Arrays.sort(termos, (s1, s2) -> s1.compareToIgnoreCase(s2));
 		} else if (ordem.equals("tamanho")) {
 			this.ordem = Ordem.TAMANHO;
+			Arrays.sort(termos, (s1, s2) -> Integer.compare(s1.length(), s2.length()));
 		}
+	}
+	
+	private String formataToString() {
+		return termos.toString().replace("[", "").replace("]", "");
 	}
 	
 	@Override
 	public String toStringCompleto() {
-		String[] ArrayToString = new String[termos.length];
-		System.arraycopy(termos, 0, ArrayToString, 0, termos.length);
-		
-		String toString = "Total termos: " + termos.length
-				+ "\n- ";
-		
-		if (ordem == Ordem.ALFABÉTICA) {
-			Arrays.sort(ArrayToString);
-		} else if (ordem == Ordem.TAMANHO) {
-			Arrays.sort(ArrayToString, new SortByLength());
-		}
-			
-		return toStringResumido();
+		return "Total termos: " + termos.length
+				+ "\n- " + formataToString();
 	}
 
 	@Override
 	public String toStringResumido() {
-		return getValor();
+		return formataToString().replace(",", " " + separador);
 	}
 
 }
