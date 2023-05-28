@@ -1,9 +1,15 @@
-package documin;
+package documento;
 
 import java.util.ArrayList;
 
+import elemento.Elemento;
+import elemento.Lista;
+import elemento.Termos;
+import elemento.Texto;
+import elemento.Titulo;
+
 public class Documento {
-	private String tituloDoc = new String();
+	private String tituloDoc;
 	private int tamanhoMaximo;
 	private ArrayList<Elemento> elementos = new ArrayList<>();
 	

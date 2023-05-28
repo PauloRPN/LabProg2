@@ -1,10 +1,15 @@
 package documin;
 
+import controladores.DocumentoController;
+import controladores.ElementoController;
+
 public class Facade {
 	private DocumentoController documentoController;
+	private ElementoController elementoController;
 	
 	public Facade() {
 		this.documentoController = new DocumentoController();
+		this.elementoController = new ElementoController(documentoController);
 	}
 	
 	public boolean criarDocumento(String tituloDoc) {
@@ -28,39 +33,39 @@ public class Facade {
 	}
 	
 	public int criarTexto(String tituloDoc, int prioridade, String valor) {
-		return this.documentoController.criarTexto(tituloDoc, prioridade, valor);
+		return this.elementoController.criarTexto(tituloDoc, prioridade, valor);
 	}
 	
 	public int criarTitulo(String tituloDoc, int prioridade, String valor, int nivel, boolean linkavel) {
-		return this.documentoController.criarTitulo(tituloDoc, prioridade, valor, nivel, linkavel);
+		return this.elementoController.criarTitulo(tituloDoc, prioridade, valor, nivel, linkavel);
 	}
 	
 	public int criarLista(String tituloDoc, int prioridade, String valor, String separador, String charLista) {
-		return this.documentoController.criarLista(tituloDoc, prioridade, valor, separador, charLista);
+		return this.elementoController.criarLista(tituloDoc, prioridade, valor, separador, charLista);
 	}
 	
 	public int criarTermos(String tituloDoc, int prioridade, String valor, String separador, String ordem) {
-		return this.documentoController.criarTermos(tituloDoc, prioridade, valor, separador, ordem);
+		return this.elementoController.criarTermos(tituloDoc, prioridade, valor, separador, ordem);
 	}
 	
 	public String pegarRepresentacaoCompleta(String tituloDoc, int elementoPosicao) {
-		return this.documentoController.pegarRepresentacaoCompleta(tituloDoc, elementoPosicao);
+		return this.elementoController.pegarRepresentacaoCompleta(tituloDoc, elementoPosicao);
 	}
 	
 	public String pegarRepresentacaoResumida(String tituloDoc, int elementoPosicao) {
-		return this.documentoController.pegarRepresentacaoResumida(tituloDoc, elementoPosicao);
+		return this.elementoController.pegarRepresentacaoResumida(tituloDoc, elementoPosicao);
 	}
 	
 	public void moverParaCima(String tituloDoc, int elementoPosicao) {
-		this.documentoController.moverParaCima(tituloDoc, elementoPosicao);
+		this.elementoController.moverParaCima(tituloDoc, elementoPosicao);
 	}
 	
 	public void moverParaBaixo(String tituloDoc, int elementoPosicao) {
-		this.documentoController.moverParaBaixo(tituloDoc, elementoPosicao);
+		this.elementoController.moverParaBaixo(tituloDoc, elementoPosicao);
 	}
 	
 	public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {
-		return this.documentoController.criarAtalho(tituloDoc, tituloDocReferenciado);
+		return this.elementoController.criarAtalho(tituloDoc, tituloDocReferenciado);
 	}
 	
 	public int criarVisaoCompleta(String tituloDoc) {

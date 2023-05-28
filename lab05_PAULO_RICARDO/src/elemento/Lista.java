@@ -1,4 +1,4 @@
-package documin;
+package elemento;
 
 public class Lista extends Elemento{
 	private String charLista;

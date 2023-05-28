@@ -1,4 +1,4 @@
-package documin;
+package elemento;
 
 public class Texto extends Elemento{
 	public Texto(int prioridade, String valor) {
