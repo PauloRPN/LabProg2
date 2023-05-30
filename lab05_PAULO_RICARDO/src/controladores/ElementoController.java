@@ -1,16 +1,18 @@
 package controladores;
 
+import Repository.DocumentoRepository;
 import documento.Documento;
+import elemento.Atalho;
 
 public class ElementoController {
-	private DocumentoController documentoController;
+	private DocumentoRepository documentoRepository;
 	
-	public ElementoController(DocumentoController documentoController) {
-		this.documentoController = documentoController;
+	public ElementoController(DocumentoRepository documentoRepository) {
+		this.documentoRepository = documentoRepository;
 	}
 	
 	private Documento documento(String tituloDoc) {
-		return documentoController.getDocumento(tituloDoc);
+		return documentoRepository.get(tituloDoc);
 	}
 	
 	public int criarTexto(String tituloDoc, int prioridade, String valor) {
@@ -62,7 +64,10 @@ public class ElementoController {
 	} 
 	
 	public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {
-		return 1;
+		Documento documento = documento(tituloDoc);
+		verificaArrayOutofBoundsException(tituloDoc);
+		verificaArrayOutofBoundsException(tituloDocReferenciado);
+		documento.criarAtalho();
 	}
 	
 	
