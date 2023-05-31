@@ -1,15 +1,18 @@
 package documin;
 
+import Repository.DocumentoRepository;
 import controladores.DocumentoController;
 import controladores.ElementoController;
 
 public class Facade {
 	private DocumentoController documentoController;
 	private ElementoController elementoController;
+	private DocumentoRepository documentoRepository;
 	
 	public Facade() {
-		this.documentoController = new DocumentoController();
-		this.elementoController = new ElementoController(documentoController);
+		this.documentoRepository = new DocumentoRepository();
+		this.documentoController = new DocumentoController(documentoRepository);
+		this.elementoController = new ElementoController(documentoRepository);
 	}
 	
 	public boolean criarDocumento(String tituloDoc) {

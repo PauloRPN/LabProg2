@@ -12,7 +12,7 @@ public class Termos extends Elemento{
 	public Termos(int prioridade, String valor, String separador, String ordem) {
 		super(prioridade, valor);
 		this.separador = separador;
-		this.termos = getValor().split(separador);
+		this.termos = getValor().split(" " + separador + " ");
 		recebeOrdem(ordem);
 	}
 	
@@ -27,11 +27,13 @@ public class Termos extends Elemento{
 		} else if (ordem.equals("tamanho")) {
 			this.ordem = Ordem.TAMANHO;
 			Arrays.sort(termos, (s1, s2) -> Integer.compare(s1.length(), s2.length()));
+		} else {
+			throw new IllegalArgumentException("ORDEM INVÁLIDA!");
 		}
 	}
 	
 	private String formataToString() {
-		return termos.toString().replace("[", "").replace("]", "");
+		return Arrays.toString(termos).replace("[", "").replace("]", "");
 	}
 	
 	@Override
@@ -44,5 +46,9 @@ public class Termos extends Elemento{
 	public String toStringResumido() {
 		return formataToString().replace(",", " " + separador);
 	}
-
+	
+	public static void main(String[] args) {
+		Elemento termo = new Termos(1, "Teste / termos / Aleatórios", "/", "alfabética");
+		System.out.println(termo.toStringResumido());
+	}
 }

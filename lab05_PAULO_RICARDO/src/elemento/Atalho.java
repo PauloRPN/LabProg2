@@ -5,20 +5,35 @@ import documento.Documento;
 public class Atalho extends Elemento{
 	private Documento documento;
 	
-	public Atalho(int prioridade, String IdDocReferenciado) {
-		super(prioridade, IdDocReferenciado);
+	public Atalho(Documento documento, int prioridade) {
+		super(prioridade, documento.getTituloDoc());
+		this.documento = documento;
 	}
-
+	
 	@Override
 	public String toStringCompleto() {
-		// TODO Auto-generated method stub
-		return null;
+		String toString = new String();
+		
+		for (Elemento elem : documento.getElementos()) {
+			if (elem.getPrioridade() >= 4) {
+				toString += elem.toStringCompleto() + "\n";
+			}
+		}
+		
+		return toString;
 	}
 
 	@Override
 	public String toStringResumido() {
-		// TODO Auto-generated method stub
-		return null;
+		String toString = new String();
+		
+		for (Elemento elem : documento.getElementos()) {
+			if (elem.getPrioridade() >= 4) {
+				toString += elem.toStringResumido() + "\n";
+			}
+		}
+		
+		return toString;
 	}
 	
 }

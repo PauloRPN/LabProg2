@@ -18,24 +18,28 @@ public class ElementoController {
 	public int criarTexto(String tituloDoc, int prioridade, String valor) {
 		Documento documento = documento(tituloDoc);
 		verificaArrayOutofBoundsException(tituloDoc);
+		verificaIllegalArgumentException(prioridade, 1);
 		return documento.criarTexto(prioridade, valor);
 	}
 
 	public int criarTitulo(String tituloDoc, int prioridade, String valor, int nivel, boolean linkavel) {
 		Documento documento = documento(tituloDoc);
 		verificaArrayOutofBoundsException(tituloDoc);
+		verificaIllegalArgumentException(prioridade, nivel);
 		return documento.criarTitulo(prioridade, valor, nivel, linkavel);
 	}
 
 	public int criarLista(String tituloDoc, int prioridade, String valor, String separador, String charLista) {
 		Documento documento = documento(tituloDoc);
 		verificaArrayOutofBoundsException(tituloDoc);
+		verificaIllegalArgumentException(prioridade, 1);
 		return documento.criarLista(prioridade, valor, separador, charLista);
 	}
 
 	public int criarTermos(String tituloDoc, int prioridade, String valor, String separador, String ordem) {
 		Documento documento = documento(tituloDoc);
 		verificaArrayOutofBoundsException(tituloDoc);
+		verificaIllegalArgumentException(prioridade, 1);
 		return documento.criarTermos(prioridade, valor, separador, ordem);
 	}
 	
@@ -67,7 +71,8 @@ public class ElementoController {
 		Documento documento = documento(tituloDoc);
 		verificaArrayOutofBoundsException(tituloDoc);
 		verificaArrayOutofBoundsException(tituloDocReferenciado);
-		documento.criarAtalho();
+		
+		return documento.criarAtalho(documento(tituloDocReferenciado));
 	}
 	
 	
@@ -78,6 +83,14 @@ public class ElementoController {
 				&& documento(tituloDoc).getQtdeElementos() == documento(tituloDoc).getTamanhoMaximo()) {
 			throw new ArrayIndexOutOfBoundsException("O DOCUMENTO ATINGIU SEU LIMITE!");
 		}
+	}
+	
+	private void verificaIllegalArgumentException(int prioridade, int nivel) {
+		if (prioridade < 1 || prioridade > 5) {
+			throw new IllegalArgumentException("PRIORIDADE INVÁLIDA!");
+		} else if (prioridade < 1 || prioridade > 5) {
+			throw new IllegalArgumentException("NÍVEL INVÁLIDO!");
+		} 
 	}
 	
 	private void verificaArrayIndexOutOfBoundsException(String tituloDoc, int elementoPosicao) {

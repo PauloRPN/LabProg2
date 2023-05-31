@@ -2,6 +2,7 @@ package documento;
 
 import java.util.ArrayList;
 
+import elemento.Atalho;
 import elemento.Elemento;
 import elemento.Lista;
 import elemento.Termos;
@@ -22,8 +23,16 @@ public class Documento {
 		this.tamanhoMaximo = tamanhoMaximo;
 	}
 	
+	public String getTituloDoc() {
+		return tituloDoc;
+	}
+	
 	public int getQtdeElementos() {
 		return elementos.size();
+	}
+	
+	public ArrayList<Elemento> getElementos() {
+		return (ArrayList<Elemento>) elementos.clone();
 	}
 	
 	public int getTamanhoMaximo() {
@@ -97,5 +106,23 @@ public class Documento {
 			elementos.add(index + 1, elemento);
 		}
 	}
+	
+	public int criarAtalho(Documento documento) {
+		Elemento elem = new Atalho(documento, documento.getMediaPrioridade());
+		elementos.add(elem);
+		
+		return elementos.indexOf(elem);
+	}
+	
+	private int getMediaPrioridade() {
+		int media = 0;
+		
+		for (Elemento elem : elementos) {
+			media += elem.getPrioridade();
+		}
+		
+		return media / elementos.size();
+	}
+	
 	
 }
