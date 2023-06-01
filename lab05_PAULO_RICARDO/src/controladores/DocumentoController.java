@@ -1,67 +1,56 @@
 package controladores;
 
-import java.util.NoSuchElementException;
+import java.util.HashMap;
+import java.util.Map;
 
-import Repository.DocumentoRepository;
 import documento.Documento;
+import validator.DocuminValidator;
 
 public class DocumentoController {
-	private DocumentoRepository documentoRepository;
+	private Map<String, Documento> documentos;
 	
 	public DocumentoController() {
-		this.documentoRepository = new DocumentoRepository();
+		this.documentos = new HashMap<>();
 	}
 	
 	public boolean criaDocumento(String tituloDoc) {
-		if (tituloDoc.isBlank() || tituloDoc.isEmpty()) {
-			throw new IllegalArgumentException("TÍTULO INVÁLIDO!");
-		} else if (documentoRepository.containsKey(tituloDoc)) {
-			return false;
-		}
+		DocuminValidator.validaTitulo(tituloDoc);
 		
-		documentoRepository.put(tituloDoc, new Documento(tituloDoc));
+		if (documentos.containsKey(tituloDoc)) return false;
+		
+		documentos.put(tituloDoc, new Documento(tituloDoc));
 		return true;
 	}
 	
 	public boolean criaDocumento(String tituloDoc, int tamanhoMaximo) {
-		if (tituloDoc.isBlank() || tituloDoc.isEmpty()) {
-			throw new IllegalArgumentException("TÍTULO INVÁLIDO!");
-		} else if (tamanhoMaximo <= 0) {
-			throw new IllegalArgumentException("TAMANHO INVÁLIDO!");
-		} else if (documentoRepository.containsKey(tituloDoc)) {
-			return false;
-		}
+		DocuminValidator.validaTitulo(tituloDoc);
+		DocuminValidator.validaTamanhoMaximo(tamanhoMaximo);
 		
-		documentoRepository.put(tituloDoc, new Documento(tituloDoc, tamanhoMaximo));
+		if (documentos.containsKey(tituloDoc)) return false;
+		
+		documentos.put(tituloDoc, new Documento(tituloDoc, tamanhoMaximo));
 		return true;
 	}
 	
 	public void removerDocumento(String tituloDoc) {
-		verificaNoSuchElementException(tituloDoc);
-		documentoRepository.remove(tituloDoc);
+		DocuminValidator.validaExistencia(tituloDoc, documentos);
+		documentos.remove(tituloDoc);
 	}
 	
 	public int contarElementos(String tituloDoc) {
-		verificaNoSuchElementException(tituloDoc);
-		return documentoRepository.get(tituloDoc).getQtdeElementos();
+		DocuminValidator.validaExistencia(tituloDoc, documentos);
+		return documentos.get(tituloDoc).getQtdeElementos();
 	}
 	
 	public String[] exibirDocumento(String tituloDoc) {
-		verificaNoSuchElementException(tituloDoc);
-		return documentoRepository.get(tituloDoc).DocumentoToString();
+		DocuminValidator.validaExistencia(tituloDoc, documentos);
+		return documentos.get(tituloDoc).DocumentoToString();
 	}
 	
 	public Documento getDocumento(String tituloDoc) {
-		verificaNoSuchElementException(tituloDoc);
-		return documentoRepository.get(tituloDoc);
+		DocuminValidator.validaExistencia(tituloDoc, documentos);
+		return documentos.get(tituloDoc);
 	}
 	
-	// Metódos que verificam exceções
-	
-	private void verificaNoSuchElementException(String tituloDoc) {
-		if (!documentoRepository.containsKey(tituloDoc)) {
-			throw new NoSuchElementException("O DOCUMENTO NÃO EXISTE!");
-		}
-	}
 	
 }

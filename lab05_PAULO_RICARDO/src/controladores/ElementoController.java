@@ -1,6 +1,7 @@
 package controladores;
 
 import documento.Documento;
+import validator.DocuminValidator;
 
 public class ElementoController {
 	private DocumentoController documentoController;
@@ -14,94 +15,55 @@ public class ElementoController {
 	}
 	
 	public int criarTexto(String tituloDoc, int prioridade, String valor) {
-		Documento documento = documento(tituloDoc);
-		verificaArrayOutofBoundsException(tituloDoc);
-		verificaIllegalArgumentException(prioridade, 1);
-		return documento.criarTexto(prioridade, valor);
+		DocuminValidator.validaLimiteArray(documento(tituloDoc));
+		DocuminValidator.validaPrioridade(prioridade);
+		return documento(tituloDoc).criarTexto(prioridade, valor);
 	}
 
 	public int criarTitulo(String tituloDoc, int prioridade, String valor, int nivel, boolean linkavel) {
-		Documento documento = documento(tituloDoc);
-		verificaArrayOutofBoundsException(tituloDoc);
-		verificaIllegalArgumentException(prioridade, nivel);
-		return documento.criarTitulo(prioridade, valor, nivel, linkavel);
+		DocuminValidator.validaLimiteArray(documento(tituloDoc));
+		DocuminValidator.validaPrioridade(prioridade);
+		return documento(tituloDoc).criarTitulo(prioridade, valor, nivel, linkavel);
 	}
 
 	public int criarLista(String tituloDoc, int prioridade, String valor, String separador, String charLista) {
-		Documento documento = documento(tituloDoc);
-		verificaArrayOutofBoundsException(tituloDoc);
-		verificaIllegalArgumentException(prioridade, 1);
-		return documento.criarLista(prioridade, valor, separador, charLista);
+		DocuminValidator.validaLimiteArray(documento(tituloDoc));
+		DocuminValidator.validaPrioridade(prioridade);
+		return documento(tituloDoc).criarLista(prioridade, valor, separador, charLista);
 	}
 
 	public int criarTermos(String tituloDoc, int prioridade, String valor, String separador, String ordem) {
-		Documento documento = documento(tituloDoc);
-		verificaArrayOutofBoundsException(tituloDoc);
-		verificaIllegalArgumentException(prioridade, 1);
-		return documento.criarTermos(prioridade, valor, separador, ordem);
+		DocuminValidator.validaLimiteArray(documento(tituloDoc));
+		DocuminValidator.validaPrioridade(prioridade);
+		return documento(tituloDoc).criarTermos(prioridade, valor, separador, ordem);
 	}
 	
 	public String pegarRepresentacaoCompleta(String tituloDoc, int elementoPosicao) {
-		Documento documento = documento(tituloDoc);
-		verificaArrayIndexOutOfBoundsException(tituloDoc, elementoPosicao);
-		return documento.pegarRepresetacaoCompleta(elementoPosicao);
+		DocuminValidator.validaPosicao(elementoPosicao, documento(tituloDoc));
+		return documento(tituloDoc).pegarRepresetacaoCompleta(elementoPosicao);
 	}
 	
 	public String pegarRepresentacaoResumida(String tituloDoc, int elementoPosicao) {
-		Documento documento = documento(tituloDoc);
-		verificaArrayOutofBoundsException(tituloDoc);
-		return documento.pegarRepresetacaoResumida(elementoPosicao);
+		DocuminValidator.validaPosicao(elementoPosicao, documento(tituloDoc));
+		return documento(tituloDoc).pegarRepresetacaoResumida(elementoPosicao);
 	}
 	
 	public void moverParaCima(String tituloDoc, int elementoPosicao) {
-		Documento documento = documento(tituloDoc);
-		verificaArrayIndexOutOfBoundsException(tituloDoc, elementoPosicao);
-		documento.moverParaCima(tituloDoc, elementoPosicao);
+		DocuminValidator.validaPosicao(elementoPosicao, documento(tituloDoc));
+		documento(tituloDoc).moverParaCima(elementoPosicao);
 	}
 
 	public void moverParaBaixo(String tituloDoc, int elementoPosicao) {
-		Documento documento = documento(tituloDoc);
-		verificaArrayIndexOutOfBoundsException(tituloDoc, elementoPosicao);
-		documento.moverParaBaixo(tituloDoc, elementoPosicao);
+		DocuminValidator.validaPosicao(elementoPosicao, documento(tituloDoc));
+		documento(tituloDoc).moverParaBaixo(elementoPosicao);
 	} 
 	
 	public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {
-		Documento doc1 = documento(tituloDoc);
-		Documento doc2 = documento(tituloDocReferenciado);
-		verificaArrayOutofBoundsException(tituloDoc);
-		verificaArrayOutofBoundsException(tituloDocReferenciado);
+		DocuminValidator.validaLimiteArray(documento(tituloDoc));
+		DocuminValidator.validaLimiteArray(documento(tituloDocReferenciado));
+		DocuminValidator.validaAtalho(documento(tituloDoc), documento(tituloDocReferenciado));
 		
-		if (doc1.isAtalho() || doc2.temAtalho()) {
-			throw new IllegalStateException("O ATALHO NÃO PODE SER CRIADO!");
-		}
-		
-		return doc1.criarAtalho(doc2);
+		return documento(tituloDoc).criarAtalho(documento(tituloDocReferenciado));
 	}
-	
-	
-	// Métodos que verificam exceções
-	
-	private void verificaArrayOutofBoundsException(String tituloDoc) {
-		if (documento(tituloDoc).getTamanhoMaximo() != 0
-				&& documento(tituloDoc).getQtdeElementos() == documento(tituloDoc).getTamanhoMaximo()) {
-			throw new ArrayIndexOutOfBoundsException("O DOCUMENTO ATINGIU SEU LIMITE!");
-		}
-	}
-	
-	private void verificaIllegalArgumentException(int prioridade, int nivel) {
-		if (prioridade < 1 || prioridade > 5) {
-			throw new IllegalArgumentException("PRIORIDADE INVÁLIDA!");
-		} else if (prioridade < 1 || prioridade > 5) {
-			throw new IllegalArgumentException("NÍVEL INVÁLIDO!");
-		} 
-	}
-	
-	private void verificaArrayIndexOutOfBoundsException(String tituloDoc, int elementoPosicao) {
-		if (elementoPosicao > documento(tituloDoc).getQtdeElementos()
-				|| elementoPosicao < 0) {
-			throw new ArrayIndexOutOfBoundsException("POSIÇÃO INVÁLIDA OU INEXISTENTE NO DOCUMENTO!");
-		}
-	}
-	
 
 }

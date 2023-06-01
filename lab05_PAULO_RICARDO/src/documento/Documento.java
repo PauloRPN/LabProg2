@@ -88,7 +88,7 @@ public class Documento {
 		return elementos.get(elementoPosicao).toStringResumido();
 	}
 
-	public void moverParaCima(String tituloDoc2, int elementoPosicao) {
+	public void moverParaCima(int elementoPosicao) {
 		if (elementoPosicao > 0) {
 			Elemento elemento = elementos.get(elementoPosicao);
 	        int index = elementos.indexOf(elemento);
@@ -98,7 +98,7 @@ public class Documento {
 		}
 	}
 
-	public void moverParaBaixo(String tituloDoc2, int elementoPosicao) {
+	public void moverParaBaixo(int elementoPosicao) {
 		if (elementoPosicao < getQtdeElementos()) {
 			Elemento elemento = elementos.get(elementoPosicao);
 	        int index = elementos.indexOf(elemento);
