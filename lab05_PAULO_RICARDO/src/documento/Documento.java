@@ -13,6 +13,7 @@ public class Documento {
 	private String tituloDoc;
 	private int tamanhoMaximo;
 	private ArrayList<Elemento> elementos = new ArrayList<>();
+	private boolean isAtalho;
 	
 	public Documento(String tituloDoc) {
 		this.tituloDoc = tituloDoc;
@@ -110,10 +111,11 @@ public class Documento {
 	public int criarAtalho(Documento documento) {
 		Elemento elem = new Atalho(documento, documento.getMediaPrioridade());
 		elementos.add(elem);
+		isAtalho = true;
 		
 		return elementos.indexOf(elem);
 	}
-	
+
 	private int getMediaPrioridade() {
 		int media = 0;
 		
@@ -121,8 +123,23 @@ public class Documento {
 			media += elem.getPrioridade();
 		}
 		
+		if (elementos.size() == 0) {
+			return 0;
+		}
+		
 		return media / elementos.size();
 	}
 	
+	public boolean isAtalho() {
+		return isAtalho;
+	}
+	
+	public boolean temAtalho() {
+		for (Elemento elem : elementos) {
+			if (elem instanceof Atalho) return true;
+		}
+		
+		return false;
+	}
 	
 }

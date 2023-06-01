@@ -1,8 +1,5 @@
 package controladores;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 import Repository.DocumentoRepository;
@@ -11,8 +8,8 @@ import documento.Documento;
 public class DocumentoController {
 	private DocumentoRepository documentoRepository;
 	
-	public DocumentoController(DocumentoRepository documentoRepository) {
-		this.documentoRepository = documentoRepository;
+	public DocumentoController() {
+		this.documentoRepository = new DocumentoRepository();
 	}
 	
 	public boolean criaDocumento(String tituloDoc) {
@@ -54,6 +51,10 @@ public class DocumentoController {
 		return documentoRepository.get(tituloDoc).DocumentoToString();
 	}
 	
+	public Documento getDocumento(String tituloDoc) {
+		verificaNoSuchElementException(tituloDoc);
+		return documentoRepository.get(tituloDoc);
+	}
 	
 	// Metódos que verificam exceções
 	

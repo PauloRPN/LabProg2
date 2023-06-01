@@ -1,18 +1,16 @@
 package controladores;
 
-import Repository.DocumentoRepository;
 import documento.Documento;
-import elemento.Atalho;
 
 public class ElementoController {
-	private DocumentoRepository documentoRepository;
+	private DocumentoController documentoController;
 	
-	public ElementoController(DocumentoRepository documentoRepository) {
-		this.documentoRepository = documentoRepository;
+	public ElementoController(DocumentoController documentoController) {
+		this.documentoController = documentoController;
 	}
 	
 	private Documento documento(String tituloDoc) {
-		return documentoRepository.get(tituloDoc);
+		return documentoController.getDocumento(tituloDoc);
 	}
 	
 	public int criarTexto(String tituloDoc, int prioridade, String valor) {
@@ -68,11 +66,16 @@ public class ElementoController {
 	} 
 	
 	public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {
-		Documento documento = documento(tituloDoc);
+		Documento doc1 = documento(tituloDoc);
+		Documento doc2 = documento(tituloDocReferenciado);
 		verificaArrayOutofBoundsException(tituloDoc);
 		verificaArrayOutofBoundsException(tituloDocReferenciado);
 		
-		return documento.criarAtalho(documento(tituloDocReferenciado));
+		if (doc1.isAtalho() || doc2.temAtalho()) {
+			throw new IllegalStateException("O ATALHO NÃO PODE SER CRIADO!");
+		}
+		
+		return doc1.criarAtalho(doc2);
 	}
 	
 	
@@ -99,5 +102,6 @@ public class ElementoController {
 			throw new ArrayIndexOutOfBoundsException("POSIÇÃO INVÁLIDA OU INEXISTENTE NO DOCUMENTO!");
 		}
 	}
+	
 
 }
