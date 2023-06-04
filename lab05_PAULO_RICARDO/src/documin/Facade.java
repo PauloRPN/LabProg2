@@ -1,7 +1,7 @@
 package documin;
 
-import controladores.DocumentoController;
-import controladores.ElementoController;
+import documin.controladores.DocumentoController;
+import documin.controladores.ElementoController;
 
 public class Facade {
 	private DocumentoController documentoController;
