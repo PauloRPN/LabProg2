@@ -1,5 +1,7 @@
 package documin.controladores;
 
+import java.util.NoSuchElementException;
+
 import documin.documento.Documento;
 import documin.validator.DocuminValidator;
 
@@ -33,6 +35,17 @@ public class ElementoController {
 	}
 	
 	/**
+	 * Conta a quantidade de elementos que um documento contém.
+	 * 
+	 * @param tituloDoc Título que identifica o documento.
+	 * @return Quantidade de elementos do documento.
+	 * @throws NoSuchElementException Lança exceção caso o documento não exista.
+	 */
+	public int contarElementos(String tituloDoc) {
+		return documento(tituloDoc).getQtdeElementos();
+	}
+	
+	/**
 	 * Cria um elemento do tipo Texto.
 	 * 
 	 * @param tituloDoc Título que identifica o documento.
@@ -45,7 +58,7 @@ public class ElementoController {
 	 */
 	public int criarTexto(String tituloDoc, int prioridade, String valor) {
 		DocuminValidator.validaLimiteArray(documento(tituloDoc).getTamanhoMaximo(),
-				documento(tituloDoc).getQtdeElementos());
+				contarElementos(tituloDoc));
 		DocuminValidator.validaPrioridade(prioridade);
 		return documento(tituloDoc).criarTexto(prioridade, valor);
 	}
@@ -66,7 +79,7 @@ public class ElementoController {
 	 */
 	public int criarTitulo(String tituloDoc, int prioridade, String valor, int nivel, boolean linkavel) {
 		DocuminValidator.validaLimiteArray(documento(tituloDoc).getTamanhoMaximo(),
-				documento(tituloDoc).getQtdeElementos());
+				contarElementos(tituloDoc));
 		DocuminValidator.validaPrioridade(prioridade);
 		DocuminValidator.validaNivel(nivel);
 		return documento(tituloDoc).criarTitulo(prioridade, valor, nivel, linkavel);
@@ -87,7 +100,7 @@ public class ElementoController {
 	 */
 	public int criarLista(String tituloDoc, int prioridade, String valor, String separador, String charLista) {
 		DocuminValidator.validaLimiteArray(documento(tituloDoc).getTamanhoMaximo(),
-				documento(tituloDoc).getQtdeElementos());
+				contarElementos(tituloDoc));
 		DocuminValidator.validaPrioridade(prioridade);
 		return documento(tituloDoc).criarLista(prioridade, valor, separador, charLista);
 	}
@@ -107,7 +120,7 @@ public class ElementoController {
 	 */
 	public int criarTermos(String tituloDoc, int prioridade, String valor, String separador, String ordem) {
 		DocuminValidator.validaLimiteArray(documento(tituloDoc).getTamanhoMaximo(),
-				documento(tituloDoc).getQtdeElementos());
+				contarElementos(tituloDoc));
 		DocuminValidator.validaPrioridade(prioridade);
 		return documento(tituloDoc).criarTermos(prioridade, valor, separador, ordem);
 	}
@@ -122,8 +135,8 @@ public class ElementoController {
 	 * @throws IndexOutOfBoundsException Lança exceção para posição menor que 0 ou maior que a quantidade de elementos de documento.
 	 */
 	public String pegarRepresentacaoCompleta(String tituloDoc, int elementoPosicao) {
-		DocuminValidator.validaPosicao(elementoPosicao, documento(tituloDoc).getQtdeElementos());
-		return documento(tituloDoc).pegarRepresetacaoCompleta(elementoPosicao);
+		DocuminValidator.validaPosicao(elementoPosicao, contarElementos(tituloDoc));
+		return documento(tituloDoc).pegarRepresentacaoCompleta(elementoPosicao);
 	}
 	
 	/**
@@ -136,8 +149,8 @@ public class ElementoController {
 	 * @throws IndexOutOfBoundsException Lança exceção para posição menor que 0 ou maior que a quantidade de elementos de documento.
 	 */
 	public String pegarRepresentacaoResumida(String tituloDoc, int elementoPosicao) {
-		DocuminValidator.validaPosicao(elementoPosicao, documento(tituloDoc).getQtdeElementos());
-		return documento(tituloDoc).pegarRepresetacaoResumida(elementoPosicao);
+		DocuminValidator.validaPosicao(elementoPosicao, contarElementos(tituloDoc));
+		return documento(tituloDoc).pegarRepresentacaoResumida(elementoPosicao);
 	}
 	
 	/**
@@ -149,7 +162,7 @@ public class ElementoController {
 	 * @throws IndexOutOfBoundsException Lança exceção para posição menor que 0 ou maior que a quantidade de elementos de documento.
 	 */
 	public void moverParaCima(String tituloDoc, int elementoPosicao) {
-		DocuminValidator.validaPosicao(elementoPosicao, documento(tituloDoc).getQtdeElementos());
+		DocuminValidator.validaPosicao(elementoPosicao, contarElementos(tituloDoc));
 		documento(tituloDoc).moverParaCima(elementoPosicao);
 	}
 	
@@ -162,7 +175,7 @@ public class ElementoController {
 	 * @throws IndexOutOfBoundsException Lança exceção para posição menor que 0 ou maior que a quantidade de elementos de documento.
 	 */
 	public void moverParaBaixo(String tituloDoc, int elementoPosicao) {
-		DocuminValidator.validaPosicao(elementoPosicao, documento(tituloDoc).getQtdeElementos());
+		DocuminValidator.validaPosicao(elementoPosicao, contarElementos(tituloDoc));
 		documento(tituloDoc).moverParaBaixo(elementoPosicao);
 	} 
 	
@@ -179,10 +192,9 @@ public class ElementoController {
 	 */
 	public int criarAtalho(String tituloDoc, String tituloDocReferenciado) {
 		DocuminValidator.validaLimiteArray(documento(tituloDoc).getTamanhoMaximo(),
-				documento(tituloDoc).getQtdeElementos());
-		DocuminValidator.validaAtalho(documento(tituloDoc).isAtalho(),
+				contarElementos(tituloDoc));	
+		DocuminValidator.validaAtalho(documento(tituloDoc).isAtalho(), 
 				documento(tituloDocReferenciado).temAtalho());
-		
 		return documento(tituloDoc).criarAtalho(documento(tituloDocReferenciado));
 	}
 

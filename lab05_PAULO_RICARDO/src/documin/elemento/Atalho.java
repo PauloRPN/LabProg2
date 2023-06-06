@@ -14,10 +14,9 @@ public class Atalho extends Elemento {
 	 * Cria um Atalho.
 	 * 
 	 * @param documento Documento referenciado por outro documento.
-	 * @param prioridade Valor inteiro entre 1-5 (inclusive) que indica a prioridade do elemento.
 	 */
-	public Atalho(Documento documento, int prioridade) {
-		super(prioridade, documento.getTituloDoc());
+	public Atalho(Documento documento) {
+		super(documento.getMediaPrioridade(), documento.getTituloDoc());
 		this.documento = documento;
 	}
 	
@@ -36,7 +35,7 @@ public class Atalho extends Elemento {
 			}
 		}
 		
-		return toString;
+		return toString.strip();
 	}
 	
 	/**
@@ -54,7 +53,7 @@ public class Atalho extends Elemento {
 			}
 		}
 		
-		return toString;
+		return toString.strip();
 	}
 	
 }

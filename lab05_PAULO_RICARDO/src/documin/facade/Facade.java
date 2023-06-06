@@ -1,4 +1,4 @@
-package documin;
+package documin.facade;
 
 import documin.controladores.DocumentoController;
 import documin.controladores.ElementoController;
@@ -25,7 +25,7 @@ public class Facade {
 	}
 	
 	public int contarElementos(String tituloDoc) {
-		return this.documentoController.contarElementos(tituloDoc);
+		return this.elementoController.contarElementos(tituloDoc);
 	}
 	
 	public String[] exibirDocumento(String tituloDoc) {

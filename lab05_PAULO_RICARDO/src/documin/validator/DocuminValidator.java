@@ -116,7 +116,7 @@ public class DocuminValidator {
 	 * @throws IndexOutOfBoundsException Lança exceção se o ID for menor que 0 ou maior que a quantidade de visões no sistema.
 	 */
 	public static void validaVisaoId(int visaoId, int visaoSize) throws IndexOutOfBoundsException {
-		if (visaoId < 0 || visaoId >= visaoSize) {
+		if (visaoSize != 0 && (visaoId < 0 || visaoId > visaoSize-1)) {
 			throw new IndexOutOfBoundsException("ID DE VISÃO INVÁLIDO!");
 		}
 	}

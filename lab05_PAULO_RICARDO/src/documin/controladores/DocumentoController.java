@@ -74,18 +74,6 @@ public class DocumentoController {
 	}
 	
 	/**
-	 * Conta a quantidade de elementos que um documento contém.
-	 * 
-	 * @param tituloDoc Título que identifica o documento.
-	 * @return Quantidade de elementos do documento.
-	 * @throws NoSuchElementException Lança exceção caso o documento não exista.
-	 */
-	public int contarElementos(String tituloDoc) {
-		DocuminValidator.validaExistencia(documentos.containsKey(tituloDoc));
-		return documentos.get(tituloDoc).getQtdeElementos();
-	}
-	
-	/**
 	 * Recupera um array de Strings da representação resumida de cada elemento de um documento.
 	 * 
 	 * @param tituloDoc Título que identifica o documento.
@@ -110,6 +98,18 @@ public class DocumentoController {
 	}
 	
 	/**
+	 * Cria um objeto Visao a partir de um documento. Este método é útil para a redução
+	 * e otimização de outros métodos ligados à criação de visões.
+	 * 
+	 * @param tituloDoc Titulo que identifica o documento.
+	 * @return A Visao criada.
+	 */
+	private Visao Visao(String tituloDoc) {
+		Visao visao = new Visao(documentos.get(tituloDoc));
+		return visao;
+	}
+	
+	/**
 	 * Cria uma visão completa de um documento.
 	 * 
 	 * @param tituloDoc Título que idenfitica o documento.
@@ -118,8 +118,8 @@ public class DocumentoController {
 	 */
 	public int criarVisaoCompleta(String tituloDoc) {
 		DocuminValidator.validaExistencia(documentos.containsKey(tituloDoc));
-		Visao visao = new Visao(documentos.get(tituloDoc));
-		visoes.add(visao.visaoCompleta());
+		String[] visao = Visao(tituloDoc).visaoCompleta();
+		visoes.add(visao);
 		
 		return visoes.indexOf(visao);
 	}
@@ -133,8 +133,8 @@ public class DocumentoController {
 	 */
 	public int criarVisaoResumida(String tituloDoc) {
 		DocuminValidator.validaExistencia(documentos.containsKey(tituloDoc));
-		Visao visao = new Visao(documentos.get(tituloDoc));
-		visoes.add(visao.visaoResumida());
+		String[] visao = Visao(tituloDoc).visaoResumida();
+		visoes.add(visao);
 		
 		return visoes.indexOf(visao);
 	}
@@ -151,8 +151,8 @@ public class DocumentoController {
 	public int criarVisaoPrioritaria(String tituloDoc, int prioridade) {
 		DocuminValidator.validaExistencia(documentos.containsKey(tituloDoc));
 		DocuminValidator.validaPrioridade(prioridade);
-		Visao visao = new Visao(documentos.get(tituloDoc));
-		visoes.add(visao.visaoPrioritaria(prioridade));
+		String[] visao = Visao(tituloDoc).visaoPrioritaria(prioridade);
+		visoes.add(visao);
 		
 		return visoes.indexOf(visao);
 	}
@@ -166,8 +166,8 @@ public class DocumentoController {
 	 */
 	public int criarVisaoTitulo(String tituloDoc) {
 		DocuminValidator.validaExistencia(documentos.containsKey(tituloDoc));
-		Visao visao = new Visao(documentos.get(tituloDoc));
-		visoes.add(visao.visaoTitulo());
+		String[] visao = Visao(tituloDoc).visaoTitulo();
+		visoes.add(visao);
 		
 		return visoes.indexOf(visao);
 	}
@@ -184,7 +184,5 @@ public class DocumentoController {
 		DocuminValidator.validaVisaoId(visaoId, visoes.size());
 		return visoes.get(visaoId);
 	}
-	
-	
-	
+
 }

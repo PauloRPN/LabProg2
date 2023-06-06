@@ -1,4 +1,4 @@
-package documin.testes;
+package documin.testes.controladores;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,13 +18,13 @@ class ElementoControllerTest {
 	public void setUp() {
 		this.documentoController  = new DocumentoController();
 		this.elementoController  = new ElementoController(documentoController);
-		documentoController.criaDocumento("Meu doc", 1);
+		documentoController.criaDocumento("Meu doc");
 		documentoController.criaDocumento("Artigo", 2);
 	}
 	
 	@Test
 	void testCriarTexto() {
-		int posicao = elementoController.criarTexto("Meu doc", 1, "Exemplo de texto");
+		int posicao = elementoController.criarTexto("Artigo", 1, "Exemplo de texto");
 		assertEquals(0, posicao);
 	}
 	
@@ -32,6 +32,7 @@ class ElementoControllerTest {
 	void testCriarElementoDocumentoInexistente() {
 		try {
 			elementoController.criarTexto("doc2", 1, "Exemplo de texto");
+			fail("Deverira lançar exceção!");
 		} catch (NoSuchElementException e) {
 			assertEquals("O DOCUMENTO NÃO EXISTE!", e.getMessage());
 		}
@@ -40,9 +41,11 @@ class ElementoControllerTest {
 	@Test
 	void testCriarElementoDocumentoCheio() {
 		testCriarTexto();
+		elementoController.criarTexto("Artigo", 1, "Exemplo de texto 2");
 		
 		try {
-			testCriarTexto();
+			elementoController.criarTexto("Artigo", 1, "Exemplo de texto 3");
+			fail("Deverira lançar exceção!");
 		} catch (IndexOutOfBoundsException e) {
 			assertEquals("O DOCUMENTO ATINGIU SEU LIMITE!", e.getMessage());
 		}
@@ -52,6 +55,7 @@ class ElementoControllerTest {
 	void testCriarElementoPrioridadeInvalida() {
 		try {
 			elementoController.criarTexto("Meu doc", 6, "Exemplo de texto");
+			fail("Deverira lançar exceção!");
 		} catch (IllegalArgumentException e) {
 			assertEquals("PRIORIDADE INVÁLIDA!", e.getMessage());
 		}
@@ -73,6 +77,7 @@ class ElementoControllerTest {
 	void testCriarTituloNivelInvalido() {
 		try {
 			elementoController.criarTitulo("Meu doc", 3, "Documentos Texto", 6, true);
+			fail("Deverira lançar exceção!");
 		} catch (IllegalArgumentException e) {
 			assertEquals("NÍVEL INVÁLIDO!", e.getMessage());
 		}
@@ -106,22 +111,30 @@ class ElementoControllerTest {
 	void testCriarTermosOrdemInvalida() {
 		try {
 			elementoController.criarTermos("Meu doc", 4, "Teste / termos / Aleatórios", "/", "numérica");
+			fail("Deverira lançar exceção!");
 		} catch (IllegalArgumentException e) {
 			assertEquals("ORDEM INVÁLIDA!", e.getMessage());
 		}
 	}
 	
 	@Test
+	void testContarElementos() {
+		testCriarTexto();
+		int qtdeElementos = elementoController.contarElementos("Artigo");
+		assertEquals(1, qtdeElementos);
+	}
+	
+	@Test
 	void testPegarRepresentacaoCompletaTexto() {
 		testCriarTexto();
-		String toString = elementoController.pegarRepresentacaoCompleta("Meu doc", 0);
+		String toString = elementoController.pegarRepresentacaoCompleta("Artigo", 0);
 		assertEquals("Exemplo de texto", toString);
 	}
 	
 	@Test
 	void testPegarRepresentacaoResumidaTexto() {
 		testCriarTexto();
-		String toString = elementoController.pegarRepresentacaoResumida("Meu doc", 0);
+		String toString = elementoController.pegarRepresentacaoResumida("Artigo", 0);
 		assertEquals("Exemplo de texto", toString);
 	}
 	
@@ -281,4 +294,32 @@ class ElementoControllerTest {
 		} 
 	}
 
+	@Test
+	void testPegarRepresentacaoCompletaAtalho() {
+		elementoController.criarLista("Meu doc", 1, "Exemplo | de uma lista | de 3 termos", "|", "-"); 
+		// A lista acima não entra para a representação de Atalho pela prioridade abaixo de 4
+		elementoController.criarTermos("Meu doc", 4, "Teste / termos / Aleatórios", "/", "nenhuma");
+		elementoController.criarTitulo("Meu doc", 5, "Documentos Texto", 1, true);
+		
+		elementoController.criarAtalho("Artigo", "Meu doc");
+		
+		String toString = elementoController.pegarRepresentacaoCompleta("Artigo", 0);
+		assertEquals("Total termos: 3\n- Teste, termos, Aleatórios"
+				+ "\n1. Documentos Texto -- 1-DOCUMENTOSTEXTO", toString);
+	}
+	
+	@Test
+	void testPegarRepresentacaoResumidaAtalho() {
+		elementoController.criarLista("Meu doc", 1, "Exemplo | de uma lista | de 3 termos", "|", "-"); 
+		// A lista acima não entra para a representação de Atalho pela prioridade abaixo de 4
+		elementoController.criarTermos("Meu doc", 4, "Teste / termos / Aleatórios", "/", "nenhuma");
+		elementoController.criarTitulo("Meu doc", 5, "Documentos Texto", 1, true);
+		
+		elementoController.criarAtalho("Artigo", "Meu doc");
+		
+		String toString = elementoController.pegarRepresentacaoResumida("Artigo", 0);
+		assertEquals("Teste / termos / Aleatórios"
+				+ "\n1. Documentos Texto", toString);
+	}
+	
 }

@@ -1,6 +1,7 @@
 package documin.documento;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import documin.elemento.Atalho;
 import documin.elemento.Elemento;
@@ -8,6 +9,7 @@ import documin.elemento.Lista;
 import documin.elemento.Termos;
 import documin.elemento.Texto;
 import documin.elemento.Titulo;
+import documin.validator.DocuminValidator;
 
 /**
  * Classe de encapsulamento do conceito de Documento. Um documento tem um título que o identifica
@@ -74,6 +76,7 @@ public class Documento {
 	 * Recupera a quantidade máxima de elementos do documento.
 	 * 
 	 * @return Tamanho máximo do documento.
+	 * @throws NoSuchElementException Lança exceção quando um tamanho máximo não foi definido.
 	 */
 	public int getTamanhoMaximo() {
 		return tamanhoMaximo;
@@ -164,7 +167,7 @@ public class Documento {
 	 * @param elementoPosicao Posição do elemento.
 	 * @return Representação completa do elemento.
 	 */
-	public String pegarRepresetacaoCompleta(int elementoPosicao) {
+	public String pegarRepresentacaoCompleta(int elementoPosicao) {
 		return elementos.get(elementoPosicao).toStringCompleto();
 	}
 
@@ -174,7 +177,7 @@ public class Documento {
 	 * @param elementoPosicao Posição do elemento.
 	 * @return Representação resumida do elemento.
 	 */
-	public String pegarRepresetacaoResumida(int elementoPosicao) {
+	public String pegarRepresentacaoResumida(int elementoPosicao) {
 		return elementos.get(elementoPosicao).toStringResumido();
 	}
 
@@ -215,11 +218,18 @@ public class Documento {
 	 * @return Posição do elemento no documento.
 	 */
 	public int criarAtalho(Documento documento) {
-		Elemento elem = new Atalho(documento, documento.getMediaPrioridade());
+		Elemento elem = new Atalho(documento);
 		elementos.add(elem);
-		isAtalho = true;
+		documento.setAtalho();
 		
 		return elementos.indexOf(elem);
+	}
+
+	/**
+	 * Define um documento como Atalho. Este método é útil para a criação de Atalaho.
+	 */
+	private void setAtalho() {
+		isAtalho = true;		
 	}
 
 	/**
@@ -227,7 +237,7 @@ public class Documento {
 	 * 
 	 * @return Média das prioridade de um documento.
 	 */
-	private int getMediaPrioridade() {
+	public int getMediaPrioridade() {
 		int media = 0;
 		
 		for (Elemento elem : elementos) {

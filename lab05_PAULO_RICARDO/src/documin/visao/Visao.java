@@ -37,7 +37,7 @@ public class Visao {
 			}
 		}
 		
-		return (String[]) toString.toArray();
+		return toString.toArray(new String[toString.size()]);
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public class Visao {
 			}
 		}
 		
-		return (String[]) toString.toArray();
+		return toString.toArray(new String[toString.size()]);
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class Visao {
 			}
 		}
 		
-		return (String[]) toString.toArray();
+		return toString.toArray(new String[toString.size()]);
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class Visao {
 			}
 		}
 		
-		return (String[]) toString.toArray();
+		return toString.toArray(new String[toString.size()]);
 	}
 
 }
