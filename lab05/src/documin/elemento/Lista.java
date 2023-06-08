@@ -29,6 +29,11 @@ public class Lista extends Elemento {
 		this.lista = valor.split("\\" + separador);
 	}
 	
+	/**
+	 * Formata a representação dos termos.
+	 * 
+	 * @return Representação formata dos termos.
+	 */
 	private String formataToString() {
 		for (int i = 0; i < lista.length; i++) {
 			lista[i] = lista[i].strip();

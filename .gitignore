@@ -1,1 +1,10 @@
-/.metadata/
+.idea
+
+out
+
+*.iml
+
+
+lab04/target/
+
+*xml

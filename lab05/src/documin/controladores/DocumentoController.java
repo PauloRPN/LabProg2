@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import documin.documento.Documento;
+import documin.documento.Visao;
 import documin.validator.DocuminValidator;
-import documin.visao.*;
 
 /**
  * Classe responsável pela crianção e manipulação de documentos.

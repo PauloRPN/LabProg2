@@ -1,6 +1,5 @@
-package documin.visao;
+package documin.documento;
 
-import documin.documento.Documento;
 import documin.elemento.Elemento;
 import documin.elemento.Titulo;
 
