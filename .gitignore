@@ -1,10 +1,4 @@
-.idea
-
+#Ignore a pasta out
 out
-
-*.iml
-
-
-lab04/target/
-
-*xml
+#Ignore a pasta idea
+.idea
